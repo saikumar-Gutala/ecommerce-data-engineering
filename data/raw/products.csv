@@ -1,0 +1,4 @@
+product_id,product_name,category,unit_price
+P101,Laptop,Electronics,500.00
+P102,Mouse,Accessories,200.00
+P103,Keyboard,Accessories,800.00

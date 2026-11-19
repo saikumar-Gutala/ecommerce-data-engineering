@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.backup
+*.log
+airflow_venv/
+.venv/
+venv/
+.idea/
+.vscode/
+.DS_Store
+spark-warehouse/
+airflow/
+metastore_db/
+logs/
+README.md.backup*
+derby.log
