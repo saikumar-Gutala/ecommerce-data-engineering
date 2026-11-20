@@ -169,13 +169,15 @@ Previously persisted HDFS outputs and successful historical execution logs are a
 - HDFS cluster verification showed four live DataNodes.
 - No corrupt or missing HDFS blocks were reported during verification.
 
-## Known Limitations
+## Known Limitations and Handover Status
 
-- Airflow 2.2.2 is installed, but current startup is blocked by the system SQLite C library version.
-- Historical successful DAG runs are available; current DAG execution requires Airflow runtime compatibility to be resolved.
-- The live streaming integration was verified, but the streaming application later stalled and was stopped.
+- Kafka broker is currently stopped due to a KRaft metadata consistency error during startup. Existing Kafka storage was backed up to `/home/hdpuser/kafka-backup-20261120/kraft-combined-logs` and verified against the original.
+- Kafka streaming integration was successfully tested earlier, including valid and quarantined records. Current live streaming availability is pending Kafka recovery.
+- Airflow 2.2.2 runtime and SQLite compatibility issue has been resolved. Both project DAGs import successfully with no import errors.
+- Airflow DAG execution was intentionally skipped; no DAG runs are recorded.
 - Kafka test topic used replication factor 1; this setup does not provide broker-level replica redundancy.
 - Spark UI browser inspection remains pending.
+- Hadoop verification: four live DataNodes, zero missing blocks, zero corrupt blocks, and zero under-replicated blocks.
 
 ## Author
 
