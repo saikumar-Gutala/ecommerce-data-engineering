@@ -129,3 +129,59 @@ HDFS checkpoints are maintained under /ecommerce/streaming/checkpoints/.
 Airflow 2.2.2 is installed in the project virtual environment, but startup currently fails because the system SQLite C library is older than 3.15.0.
 A separate clean Kafka KRaft data directory was used for live integration testing. Original Kafka data and backups were preserved. The live Kafka-to-Spark-to-Delta data quality flow was successfully verified.
 Previously persisted HDFS outputs and successful historical execution logs are available.
+
+## Project Highlights
+
+### Data Quality Engineering
+- Validates mandatory order, customer and product identifiers.
+- Detects null and invalid quantity and amount values.
+- Validates order status against allowed values.
+- Separates invalid records into a quarantine Delta table.
+- Generates data quality metrics and validation reports.
+
+### Streaming Pipeline
+- Ingests order events through Kafka.
+- Processes events using Spark Structured Streaming.
+- Uses checkpoints for streaming recovery.
+- Writes valid and invalid records to separate Delta outputs.
+- Implements deduplication and validation.
+
+### Delta Lake
+- Creates transactional Delta tables.
+- Performs MERGE operations for incremental data.
+- Maintains Delta transaction history.
+- Supports validated batch and streaming outputs.
+
+### Spark Performance Experiments
+- Adaptive Query Execution (AQE).
+- Broadcast joins.
+- Cache versus persist.
+- Repartition versus coalesce.
+- Shuffle partition tuning.
+- Data skew handling and salting.
+
+## Verified Results
+
+- Generated batch validation: 3,760 data records plus CSV header.
+- Live Kafka-to-Spark-to-Delta integration successfully verified.
+- A live test order was verified in the valid Delta output.
+- Five invalid records were verified in the quarantine output.
+- HDFS cluster verification showed four live DataNodes.
+- No corrupt or missing HDFS blocks were reported during verification.
+
+## Known Limitations
+
+- Airflow 2.2.2 is installed, but current startup is blocked by the system SQLite C library version.
+- Historical successful DAG runs are available; current DAG execution requires Airflow runtime compatibility to be resolved.
+- The live streaming integration was verified, but the streaming application later stalled and was stopped.
+- Kafka test topic used replication factor 1; this setup does not provide broker-level replica redundancy.
+- Spark UI browser inspection remains pending.
+
+## Author
+
+**Saikumar Gutala**
+
+GitHub: https://github.com/saikumar-Gutala
+
+Project Repository:
+https://github.com/saikumar-Gutala/ecommerce-data-engineering
